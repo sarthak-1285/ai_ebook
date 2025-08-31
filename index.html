@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Like a Pro: The Ultimate Guide to Getting What You Want from AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .pro-tip {
+            border-left: 4px solid #10b981; /* emerald-500 */
+            background-color: #ecfdf5; /* emerald-50 */
+            color: #047857; /* emerald-700 */
+        }
+        .warning {
+            border-left: 4px solid #f97316; /* orange-500 */
+            background-color: #fff7ed; /* orange-50 */
+            color: #c2410c; /* orange-700 */
+        }
+        .prompt-block {
+            background-color: #0f172a; /* slate-900 */
+            color: #e2e8f0; /* slate-200 */
+            border-radius: 12px;
+            padding: 3rem 1.5rem 1.5rem; /* Adjusted top padding for button */
+            position: relative;
+            border: 1px solid #334155; /* slate-700 */
+            box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.25);
+        }
+        .prompt-block pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+            line-height: 1.6;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: #334155; /* slate-700 */
+            color: #cbd5e1; /* slate-300 */
+            border: 1px solid #475569;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .copy-btn:hover {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+            transform: translateY(-2px);
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #4f46e5, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .sidebar a:hover {
+            background-color: #e2e8f0; /* slate-200 */
+            transform: translateX(4px);
+            transition: transform 0.2s;
+        }
+        .sidebar a.active {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3);
+        }
+        .chapter-heading {
+            background: linear-gradient(to right, #e0e7ff, #fbcfe8);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px; /* Rounded corners for titles */
+        }
+        .pillar-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .pillar-icon {
+            background: linear-gradient(to right, #4f46e5, #ec4899);
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Quiz Styles */
+        .quiz-question {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .quiz-options label {
+            display: block;
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        .quiz-options label:hover {
+            background-color: #e0e7ff;
+            border-color: #4f46e5;
+        }
+        .quiz-options input[type="radio"] {
+            display: none;
+        }
+        .quiz-options input[type="radio"]:checked + label {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4338ca;
+        }
+        .submit-btn {
+            background-color: #10b981;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .submit-btn:hover {
+            background-color: #059669;
+        }
+        #quiz-results {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #166534;
+        }
+
+        .mobile-menu-button {
+            display: none;
+        }
+        @media (max-width: 1024px) {
+            .mobile-menu-button {
+                display: block;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100%;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 50;
+                background-color: #f1f5f9; /* slate-100 */
+                box-shadow: 4px 0px 15px rgba(0,0,0,0.1);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 leading-relaxed">
+
+    <!-- Mobile Menu Button -->
+    <button id="menu-btn" class="mobile-menu-button fixed top-4 left-4 z-50 bg-white p-2 rounded-full shadow-lg">
+      <svg xmlns="http://www.w.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+    
+    <div class="flex min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="sidebar w-64 flex-shrink-0 p-8 sticky top-0 h-screen overflow-y-auto">
+            <h2 class="font-bold text-lg mb-4 text-indigo-600">Contents</h2>
+            <nav id="table-of-contents" class="flex flex-col space-y-2 text-slate-600">
+                <a href="#chapter1" class="px-3 py-2 rounded-md transition">1. Talking to AI</a>
+                <a href="#chapter2" class="px-3 py-2 rounded-md transition">2. The 4 Simple Rules</a>
+                <a href="#chapter3" class="px-3 py-2 rounded-md transition">3. Easy Prompting Tricks</a>
+                <a href="#chapter4" class="px-3 py-2 rounded-md transition">4. Pro-Level Strategies</a>
+                <a href="#chapter5" class="px-3 py-2 rounded-md transition">5. Ready-to-Use Templates</a>
+                <a href="#chapter6" class="px-3 py-2 rounded-md transition">6. Avoiding Mistakes</a>
+                <a href="#chapter7" class="px-3 py-2 rounded-md transition">7. What's Next?</a>
+                <a href="#quiz" class="px-3 py-2 rounded-md transition">8. Test Your Knowledge</a>
+                <a href="#bonus" class="px-3 py-2 rounded-md transition font-bold text-indigo-500">Bonus: Sample Prompts</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 sm:p-8 md:p-12">
+            <div class="max-w-3xl mx-auto">
+                
+                <header class="text-center mb-16">
+                    <h1 class="text-5xl md:text-6xl font-extrabold mb-4">Prompt Like a <span class="gradient-text">Pro</span></h1>
+                    <p class="text-xl text-slate-500">The Simple Guide to Getting Exactly What You Want from AI</p>
+                </header>
+
+                <!-- Chapters 1-5 ... (Existing content remains unchanged) -->
+                <section id="chapter1" class="mb-20 scroll-mt-24">
+                    <div class="chapter-heading mb-6"><h2 class="text-3xl font-bold">1. Talking to AI is a Superpower</h2></div>
+                    <p class="mb-4 text-lg text-slate-600">Welcome! Using powerful AIs like ChatGPT or Gemini is like having a new superpower. But to use it well, you need to learn how to talk to it. Your instructions, called "prompts," are the secret to making the AI do amazing things for you.</p>
+                    <p class="mb-4 text-slate-600">Think of yourself as a movie director and the AI as your star actor. The actor is brilliant and can play any part, but it needs clear instructions. If you say "just act," you'll get a confusing mess. But if you give clear directions, you'll get an award-winning performance.</p>
+                    <div class="pro-tip p-4 rounded-md my-6">
+                        <p><strong class="font-semibold">Key Idea:</strong> Getting good results from AI is a skill you can learn. This guide teaches you the simple rules to become a great AI director.</p>
+                    </div>
+                    <p class="text-slate-600">Ever feel frustrated when an AI gives you a boring, generic, or wrong answer? It's not that the AI is dumb. It's that the instruction wasn't clear enough. This guide fixes that by teaching you how to give perfect instructions, every time.</p>
+                </section>
+
+                <section id="chapter2" class="mb-20 scroll-mt-24">
+                    <div class="chapter-heading mb-6"><h2 class="text-3xl font-bold">2. The Four Simple Rules of a Great Prompt</h2></div>
+                    <p class="mb-8 text-slate-600">Every amazing AI response comes from a prompt that follows four simple rules. Learn these, and your results will get better instantly.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="pillar-card">
+                            <div class="flex items-center gap-4 mb-3">
+                                <div class="pillar-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                                <h3 class="text-2xl font-semibold text-indigo-700">Rule 1: Give it a Job</h3>
+                            </div>
+                            <p class="text-slate-600">Tell the AI who it is. Giving it a role like "expert copywriter" or "friendly tutor" helps it know how to act and what to say.</p>
+                        </div>
+                         <div class="pillar-card">
+                             <div class="flex items-center gap-4 mb-3">
+                                <div class="pillar-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+                                <h3 class="text-2xl font-semibold text-indigo-700">Rule 2: Give it a Task</h3>
+                            </div>
+                            <p class="text-slate-600">Be super clear about what you want. Use action words like "Write," "Summarize," "Translate," or "Brainstorm."</p>
+                        </div>
+                         <div class="pillar-card">
+                             <div class="flex items-center gap-4 mb-3">
+                                <div class="pillar-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></div>
+                                <h3 class="text-2xl font-semibold text-indigo-700">Rule 3: Give it Context</h3>
+                            </div>
+                            <p class="text-slate-600">The AI doesn't know your project or your audience. Give it the important background info it needs to give you a perfect answer.</p>
+                        </div>
+                         <div class="pillar-card">
+                             <div class="flex items-center gap-4 mb-3">
+                                <div class="pillar-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
+                                <h3 class="text-2xl font-semibold text-indigo-700">Rule 4: Give it a Format</h3>
+                            </div>
+                            <p class="text-slate-600">Tell the AI exactly what the final result should look like. Do you want a bulleted list? A table? An email?</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="chapter3" class="mb-20 scroll-mt-24">
+                    <div class="chapter-heading mb-6"><h2 class="text-3xl font-bold">3. Easy Prompting Tricks</h2></div>
+                    <p class="mb-8 text-slate-600">Let's learn some simple but powerful tricks you can use right away.</p>
+
+                    <h3 class="text-2xl font-semibold mb-2 text-indigo-700">Teach by Example (Few-Shot Prompting)</h3>
+                    <p class="mb-4 text-slate-600">The best way to get what you want is to show the AI an example. It's like showing a kid a picture of a dog before asking them to draw one. You give it a few examples, then ask it to do the same for your new item.</p>
+                    
+                    <div class="prompt-block my-6">
+                        <button class="copy-btn" onclick="copyPrompt(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</button>
+                        <pre><code>You classify customer feedback as Positive, Negative, or Neutral. Here are some examples:
+
+Review: "The product is amazing!"
+Sentiment: Positive
+
+Review: "It arrived late and was the wrong color."
+Sentiment: Negative
+
+---
+Now, classify this new review:
+Review: "It works, but the instructions were confusing."
+Sentiment:</code></pre>
+                    </div>
+                    <p class="text-slate-600">By showing it examples, you've trained the AI instantly to know what you mean by "Positive" and "Negative."</p>
+
+                    <h3 class="text-2xl font-semibold mt-8 mb-2 text-indigo-700">Ask it to "Think Step-by-Step"</h3>
+                    <p class="mb-4 text-slate-600">For math or logic problems, AIs can rush and make mistakes. If you add the magic words "think step-by-step," it slows down, shows its work, and is much more likely to get the right answer.</p>
+                    <div class="prompt-block my-6">
+                        <button class="copy-btn" onclick="copyPrompt(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</button>
+                        <pre><code>Q: A t-shirt costs $25, but it's on sale for 20% off. You also have to pay a 10% sales tax on the discounted price. What is the final cost?
+
+A: Let's break this down step-by-step to figure out the final cost.</code></pre>
+                    </div>
+                     <div class="warning p-4 rounded-md my-6">
+                        <p><strong class="font-semibold">Simple Trick, Big Difference:</strong> Just adding "Let's think step-by-step" or "Show your work" dramatically improves accuracy on complex questions.</p>
+                    </div>
+                </section>
+
+                <section id="chapter4" class="mb-20 scroll-mt-24">
+                    <div class="chapter-heading mb-6"><h2 class="text-3xl font-bold">4. Pro-Level Strategies</h2></div>
+                    <p class="mb-8 text-slate-600">Ready to become a true pro? These strategies help with complex tasks.</p>
+                    
+                    <h3 class="text-2xl font-semibold mb-2 text-indigo-700">Have a Conversation (Iterative Prompting)</h3>
+                    <p class="mb-4 text-slate-600">Your first prompt is just the beginning. The real magic happens when you chat with the AI. Get its first answer, then give it feedback to make it better. Try saying things like:
+                        <ul class="list-disc list-inside my-2 text-slate-600">
+                            <li>"That's great, but can you make it funnier?"</li>
+                            <li>"Now, rewrite that for a 5th grader."</li>
+                            <li>"Can you add a section about [new topic]?"</li>
+                        </ul>
+                    </p>
+
+                    <h3 class="text-2xl font-semibold mt-8 mb-2 text-indigo-700">The Recipe: Mix All The Rules Together</h3>
+                    <p class="mb-4 text-slate-600">The best prompts are like a recipe: they mix all four rules together. You give the AI a job, a task, the context, and the format all at once.</p>
+                    <div class="prompt-block my-6">
+                        <button class="copy-btn" onclick="copyPrompt(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</button>
+                        <pre><code>[JOB]
+You are a world-class chef writing a simple recipe for a beginner cook.
+
+[CONTEXT]
+The recipe is for a quick weekday chicken pasta dish. The person cooking has basic kitchen supplies and is short on time.
+
+[TASK]
+Write the recipe. It must be easy to follow and take less than 30 minutes.
+
+[FORMAT]
+Structure the output with:
+1. A catchy name for the dish.
+2. A bulleted list of ingredients.
+3. Numbered steps for the instructions.</code></pre>
+                    </div>
+
+                    <h3 class="text-2xl font-semibold mt-8 mb-2 text-indigo-700">Stuck? Ask the AI to Help You!</h3>
+                    <p class="mb-4 text-slate-600">This is the ultimate secret weapon. If you don't know how to write a good prompt, ask the AI to write it for you!</p>
+                    <div class="prompt-block my-6">
+                        <button class="copy-btn" onclick="copyPrompt(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</button>
+                        <pre><code>I want to ask an AI to plan a 7-day family vacation to Italy.
+
+Can you write a perfect prompt for me to use? Make sure you include a place for me to specify the budget, interests, and time of year. Use the 4 rules: Job, Task, Context, and Format.</code></pre>
+                    </div>
+                </section>
+                
+                <section id="chapter5" class="mb-20 scroll-mt-24">
+                    <div class="chapter-heading mb-6"><h2 class="text-3xl font-bold">5. Ready-to-Use Prompt Templates</h2></div>
+                    <p class="mb-8 text-slate-600">Here are some templates you can copy and paste. Just fill in the parts in [brackets].</p>
+
+                    <h3 class="text-xl font-semibold mb-2 text-indigo-700">For Writing a Story</h3>
+                    <div class="prompt-block my-6">
+                        <button class="copy-btn" onclick="copyPrompt(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</button>
+                        <pre><code>You are a famous author like [Author's Name]. Write a short story (about 300 words) about a [Main Character] who discovers a [Magical Object]. The story should feel [Mood, e.g., exciting, spooky, funny].</code></pre>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mt-6 mb-2 text-indigo-700">For Writing an Email</h3>
+                    <div class="prompt-block my-6">
+                        <button class="copy-btn" onclick="copyPrompt(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</button>
+                        <pre><code>Act as a helpful assistant. Write a polite and professional email to [Recipient's Name].
+
+My Goal: [What you want to achieve with the email].
+Key Points to Include:
+- [Point 1]
+- [Point 2]
+- [Point 3]
+
+Keep the email short and clear.</code></pre>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mt-6 mb-2 text-indigo-700">For Learning Something New</h3>
+                    <div class="prompt-block my-6">
+                        <button class="copy-btn" onclick="copyPrompt(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy</button>
+                        <pre><code>You are the world's best teacher. I want to learn about [Topic]. Explain it to me like I'm a complete beginner. Use a simple analogy to help me understand.</code></pre>
+                    </div>
+                </section>
+                
+                <!-- NEW Chapter 6: Avoiding Mistakes -->
+                <section id="chapter6" class="mb-20 scroll-mt-24">
+                    <div class="chapter-heading mb-6"><h2 class="text-3xl font-bold">6. Avoiding Common Mistakes</h2></div>
+                    <p class="mb-8 text-slate-600">Knowing what *not* to do is just as important as knowing what to do. Here are some common traps and how to avoid them.</p>
+
+                    <h3 class="text-2xl font-semibold mt-8 mb-2 text-indigo-700">Mistake 1: Being Too Vague</h3>
+                    <p class="mb-4 text-slate-600">Vague prompts lead to vague, generic answers. The more specific you are, the better the result.</p>
+                    <p class="mt-2 text-slate-500 font-semibold">Before: "Write about marketing."</p>
+                    <p class="mt-2 text-green-600 font-semibold">After: "Write a 3-point summary of a digital marketing strategy for a new coffee shop targeting young professionals on Instagram."</p>
+
+                    <h3 class="text-2xl font-semibold mt-8 mb-2 text-indigo-700">Mistake 2: Forgetting the Format</h3>
+                    <p class="mb-4 text-slate-600">If you don't tell the AI how to structure the answer, you'll get a wall of text that's hard to use. Always specify the format.</p>
+                    <p class="mt-2 text-slate-500 font-semibold">Before: "What are the pros and cons of remote work?"</p>
+                    <p class="mt-2 text-green-600 font-semibold">After: "Create a markdown table with two columns, 'Pros' and 'Cons', listing the key arguments for and against remote work."</p>
+
+                    <h3 class="text-2xl font-semibold mt-8 mb-2 text-indigo-700">Mistake 3: Trusting Without Verifying</h3>
+                    <p class="mb-4 text-slate-600">AI models can sometimes make up facts or "hallucinate." For important information, especially data or historical facts, always treat the AI's answer as a starting point and double-check it with a reliable source.</p>
+                     <div class="warning p-4 rounded-md my-6">
+                        <p><strong class="font-semibold">Always Fact-Check:</strong> Think of the AI as a brilliant but sometimes forgetful intern. Always verify critical information before publishing or using it.</p>
+                    </div>
+                </section>
+
+                <section id="chapter7" class="mb-20 scroll-mt-24">
+                    <div class="chapter-heading mb-6"><h2 class="text-3xl font-bold">7. What's Next? Your AI Journey</h2></div>
+                    <p class="mb-4 text-slate-600">Learning to prompt is not a one-time thing. It's the start of a new way of working and creating. As AI gets even smarter, your skill at giving it clear directions will become even more valuable.</p>
+                    <div class="pro-tip p-4 rounded-md my-6">
+                        <p><strong class="font-semibold">Your Next Steps:</strong>
+                        <ul class="list-disc list-inside mt-2">
+                            <li><strong>Practice Daily:</strong> Try one new trick from this guide every day.</li>
+                            <li><strong>Save Your Best Prompts:</strong> When a prompt gives you a perfect result, save it in a note! This becomes your personal toolkit.</li>
+                            <li><strong>Be Curious:</strong> AI is changing fast. Keep playing with it and see what new things you can make it do.</li>
+                        </ul>
+                        </p>
+                    </div>
+                    <p class="text-slate-600 font-semibold text-lg">You are no longer just a computer user. You are a creator, an explorer, and a partner with one of the most powerful tools ever made. Now, go create something amazing!</p>
+                </section>
+
+                <!-- NEW Quiz Section -->
+                <section id="quiz" class="mb-20 scroll-mt-24">
+                    <div class="chapter-heading mb-6"><h2 class="text-3xl font-bold">8. Test Your Knowledge</h2></div>
+                    <form id="prompt-quiz">
+                        <div class="quiz-question">
+                            <p class="font-semibold mb-4">1. Which of the "Four Rules" involves telling the AI to act as a specific expert, like a "travel guide" or a "chef"?</p>
+                            <div class="quiz-options">
+                                <input type="radio" id="q1a1" name="q1" value="a"><label for="q1a1">a) Task</label>
+                                <input type="radio" id="q1a2" name="q1" value="b"><label for="q1a2">b) Give it a Job (Persona)</label>
+                                <input type="radio" id="q1a3" name="q1" value="c"><label for="q1a3">c) Format</label>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <p class="font-semibold mb-4">2. You want the AI to solve a math problem. What is the best trick to improve its accuracy?</p>
+                            <div class="quiz-options">
+                                <input type="radio" id="q2a1" name="q2" value="a"><label for="q2a1">a) Ask it to be quick</label>
+                                <input type="radio" id="q2a2" name="q2" value="b"><label for="q2a2">b) Use all caps</label>
+                                <input type="radio" id="q2a3" name="q2" value="c"><label for="q2a3">c) Ask it to "think step-by-step"</label>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <p class="font-semibold mb-4">3. Providing examples of the output you want in your prompt is called:</p>
+                            <div class="quiz-options">
+                                <input type="radio" id="q3a1" name="q3" value="a"><label for="q3a1">a) Zero-Shot Prompting</label>
+                                <input type="radio" id="q3a2" name="q3" value="b"><label for="q3a2">b) Few-Shot Prompting</label>
+                                <input type="radio" id="q3a3" name="q3" value="c"><label for="q3a3">c) Iterative Prompting</label>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <p class="font-semibold mb-4">4. If you get a good first response from the AI but it's not perfect, what is the best next step?</p>
+                            <div class="quiz-options">
+                                <input type="radio" id="q4a1" name="q4" value="a"><label for="q4a1">a) Delete it and start a new chat with a different prompt.</label>
+                                <input type="radio" id="q4a2" name="q4" value="b"><label for="q4a2">b) Give it feedback and ask for a revision (e.g., "make it shorter").</label>
+                                <input type="radio" id="q4a3" name="q4" value="c"><label for="q4a3">c) Accept the answer as final.</label>
+                            </div>
+                        </div>
+                        <div class="quiz-question">
+                            <p class="font-semibold mb-4">5. What does the "Format" rule help you control?</p>
+                            <div class="quiz-options">
+                                <input type="radio" id="q5a1" name="q5" value="a"><label for="q5a1">a) The AI's personality.</label>
+                                <input type="radio" id="q5a2" name="q5" value="b"><label for="q5a2">b) The length of the answer.</label>
+                                <input type="radio" id="q5a3" name="q5" value="c"><label for="q5a3">c) The structure of the output (e.g., a list, table, or JSON).</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn mt-4">See Your Score!</button>
+                    </form>
+                    <div id="quiz-results" class="mt-6 hidden"></div>
+                </section>
+                
+                <!-- NEW Bonus Section -->
+                <section id="bonus" class="mb-20 scroll-mt-24">
+                    <div class="chapter-heading mb-6"><h2 class="text-3xl font-bold">Bonus: Power Prompts</h2></div>
+                    <p class="mb-8 text-slate-600">Here is a list of prompts to copy, paste, and adapt for your own needs. Have fun exploring!</p>
+                    
+                    <h3 class="text-2xl font-semibold mt-6 mb-2 text-indigo-700">Creativity & Brainstorming</h3>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Generate 10 unconventional names for a new brand of [product type, e.g., eco-friendly soap].</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Write a short poem about [topic, e.g., the feeling of a city at night] in the style of [poet, e.g., Emily Dickinson].</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Brainstorm 5 plot ideas for a sci-fi movie where the main twist is [twist, e.g., the hero is actually an android].</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Create a list of 5 rhyming slogans for a [company type, e.g., a bakery].</code></pre></div>
+
+                    <h3 class="text-2xl font-semibold mt-6 mb-2 text-indigo-700">Productivity & Business</h3>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Draft a professional email to my team announcing [announcement, e.g., a new project kickoff]. The tone should be motivational.</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Summarize the following article into 5 key bullet points: [paste article text here]</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Create a meeting agenda for a 1-hour brainstorming session about [topic, e.g., improving customer onboarding].</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Act as a business consultant. What are the top 3 risks for a new [business type, e.g., dropshipping store] and how can I mitigate them?</code></pre></div>
+
+                    <h3 class="text-2xl font-semibold mt-6 mb-2 text-indigo-700">Learning & Education</h3>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Explain [complex topic, e.g., blockchain] to me like I'm 10 years old. Use a simple analogy.</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Create a 5-question multiple-choice quiz about [historical event, e.g., the American Revolution]. Include the correct answers.</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>I'm trying to learn [language, e.g., Spanish]. Give me 10 common phrases for [situation, e.g., ordering food at a restaurant].</code></pre></div>
+
+                    <h3 class="text-2xl font-semibold mt-6 mb-2 text-indigo-700">Technical & Coding</h3>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Write a Python function that [task, e.g., takes a list of numbers and returns the average]. Add comments explaining the code.</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>I'm getting an error in my JavaScript code: [paste error message]. Here is my code: [paste code]. What is the likely cause of the error?</code></pre></div>
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Explain the difference between SQL and NoSQL databases in a simple table format.</code></pre></div>
+                    <!-- I will add more prompts here to reach 100+ -->
+                    <div class="prompt-block my-6"><button class="copy-btn" onclick="copyPrompt(this)">Copy</button><pre><code>Generate a sample JSON object for a user profile that includes name, email, age, and a list of hobbies.</code></pre></div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // --- Copy to Clipboard Functionality ---
+        function copyPrompt(button) {
+            const promptBlock = button.closest('.prompt-block');
+            const code = promptBlock.querySelector('pre');
+            const textToCopy = code.innerText;
+            
+            const textArea = document.createElement('textarea');
+            textArea.value = textToCopy;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                button.innerText = 'Failed!';
+            }
+            document.body.removeChild(textArea);
+
+            setTimeout(() => {
+                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy';
+            }, 2000);
+        }
+
+        // --- Active Link highlighting on Scroll ---
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('#table-of-contents a');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').substring(1) === entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { rootMargin: '-30% 0px -70% 0px' });
+        sections.forEach(section => observer.observe(section));
+
+        // --- Mobile Menu Toggle ---
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const navLinksMobile = document.querySelectorAll('#table-of-contents a');
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+        navLinksMobile.forEach(link => {
+            link.addEventListener('click', () => {
+                 sidebar.classList.remove('open');
+            });
+        });
+
+        // --- Quiz Functionality ---
+        const quizForm = document.getElementById('prompt-quiz');
+        const quizResults = document.getElementById('quiz-results');
+        const correctAnswers = {
+            q1: 'b',
+            q2: 'c',
+            q3: 'b',
+            q4: 'b',
+            q5: 'c'
+        };
+
+        quizForm.addEventListener('submit', event => {
+            event.preventDefault();
+            let score = 0;
+            const userAnswers = new FormData(quizForm);
+
+            for (let [question, answer] of userAnswers.entries()) {
+                if (answer === correctAnswers[question]) {
+                    score++;
+                }
+            }
+
+            const totalQuestions = Object.keys(correctAnswers).length;
+            let feedback = `You scored ${score} out of ${totalQuestions}!`;
+
+            if (score === totalQuestions) {
+                feedback += " Excellent work, you're a prompt pro!";
+            } else if (score >= totalQuestions / 2) {
+                feedback += " Great job! You've got a solid understanding.";
+            } else {
+                feedback += " Good start! Review the chapters to become a master.";
+            }
+
+            quizResults.innerText = feedback;
+            quizResults.classList.remove('hidden');
+        });
+
+    </script>
+</body>
+</html>
+
